@@ -24,7 +24,11 @@
 #include "ip_host_map.h"
 #include <string>
 
-char * SingleServiceFileMap::findHostForIP(sockaddr * ip, char * hostname) const noexcept {
+char * SingleServiceFileMap::findHostForIP(IpEndpoint * ip, char * hostname) const noexcept {
+    return this->findHostForIP(ip);
+}
+
+char * SingleServiceFileMap::findHostForIP(IpEndpoint * ip) const noexcept {
     return nullptr;
 }
 

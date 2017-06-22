@@ -24,17 +24,18 @@
 #include "ip_host_map.h"
 #include <string>
 #include <list>
+#include <iostream>
 
 using namespace std;
 
 int
-test_single_service_file_map(string file_location, list<tuple<IpEndpoint *, string> > in, list<IpAddr *> out)
+test_single_service_file_map(string file_location, list<tuple<IpEndpoint *, string> > in, list<IpEndpoint *> out)
 {
   SingleServiceFileMap hostMap(location);
-  fail = 0;
+  int fail = 0;
   for (const auto pair : in) {
     string expected = get<1>(pair);
-    char * actual = hostMap.findHostForIP(get<0>(pair), nullptr);
+    char * actual = hostMap.findHostForIP(get<0>(pair));
     if(expected.compare(actual) != 0) {
       cout << "Expected host " << expected << ", but got " << actual << endl;
       fail = 1;
@@ -42,7 +43,7 @@ test_single_service_file_map(string file_location, list<tuple<IpEndpoint *, stri
   }
 
   for (const auto ip : out) {
-    if (hostMap.findHostForIP(ip, nullptr) != nullptr) {
+    if (hostMap.findHostForIP(ip) != nullptr) {
       cout << "Found an IP address that wasn't expected in the file." << endl;
       fail = 1;
     }

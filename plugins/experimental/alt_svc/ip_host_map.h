@@ -26,13 +26,14 @@
 // Virtual interfacing class.
 class IpHostMap {
 public:
-    virtual char * findHostForIP(sockaddr * ip, char * hostname) const noexcept = 0;
+    virtual char * findHostForIP(IpEndpoint * ip, char * hostname) const noexcept = 0;
     virtual ~IpHostMap();
 };
 
 class SingleServiceFileMap : public IpHostMap {
 public:
-    char * findHostForIP(sockaddr * ip, char * hostname) const noexcept override;
+    char * findHostForIP(IpEndpoint * ip, char * hostname) const noexcept override;
+    char * findHostForIP(IpEndpoint * ip) const noexcept;
 
     SingleServiceFileMap(std::string filename);
 };
