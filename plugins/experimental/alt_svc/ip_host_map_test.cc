@@ -31,7 +31,7 @@ using namespace std;
 int
 test_single_service_file_map(string file_location, list<tuple<IpEndpoint *, string> > in, list<IpEndpoint *> out)
 {
-  SingleServiceFileMap hostMap(location);
+  SingleServiceFileMap hostMap(file_location);
   int fail = 0;
   for (const auto pair : in) {
     string expected = get<1>(pair);
