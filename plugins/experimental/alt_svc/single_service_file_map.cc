@@ -36,7 +36,7 @@ std::string SingleServiceFileMap::findHostForIP(IpEndpoint * ip) const noexcept 
 SingleServiceFileMap::SingleServiceFileMap(std::string filename) {
     // Read file
     std::ifstream config_file {filename};
-    if (!config_file) {
+    if (config_file.fail()) {
         std::cout << "Cannot find config file at " << filename << std::endl;
         // TODO how to fail in init?
     }
