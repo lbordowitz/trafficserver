@@ -37,7 +37,7 @@ test_single_service_file_map(string file_location, list<tuple<IpEndpoint *, stri
     string expected = get<1>(pair);
     char * actual = hostMap.findHostForIP(get<0>(pair));
     if(actual != nullptr && expected.compare(actual) != 0) {
-      cout << "Expected host " << expected << ", but got " << actual == nullptr ? "a nullptr" : actual << endl;
+      cout << "Expected host " << expected << ", but got " << (actual == nullptr ? "a nullptr" : actual) << endl;
       fail = 1;
     }
   }
