@@ -35,15 +35,15 @@ test_single_service_file_map(string file_location, list<tuple<IpEndpoint *, stri
   int fail = 0;
   for (const auto pair : in) {
     string expected = get<1>(pair);
-    char * actual = hostMap.findHostForIP(get<0>(pair));
-    if(actual == nullptr || expected.compare(actual) != 0) {
-      cout << "Expected host " << expected << ", but got " << (actual == nullptr ? "a nullptr" : actual) << endl;
+    string actual = hostMap.findHostForIP(get<0>(pair));
+    if(actual.isEmpty() || expected.compare(actual) != 0) {
+      cout << "Expected host " << expected << ", but got " << (actual.isEmpty() ? "an empty string" : actual) << endl;
       fail = 1;
     }
   }
 
   for (const auto ip : out) {
-    if (hostMap.findHostForIP(ip) != nullptr) {
+    if (hostMap.findHostForIP(ip).isEmpty()) {
       cout << "Found an IP address that wasn't expected in the file." << endl;
       fail = 1;
     }
