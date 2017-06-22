@@ -23,7 +23,7 @@
 
 #include "ip_host_map.h"
 #include <string>
-#include <vector>
+#include <list>
 
 using namespace std;
 
