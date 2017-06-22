@@ -36,4 +36,5 @@ public:
     char * findHostForIP(IpEndpoint * ip) const noexcept;
 
     SingleServiceFileMap(std::string filename);
+    ~SingleServiceFileMap();
 };
