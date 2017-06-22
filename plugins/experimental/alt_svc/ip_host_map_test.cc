@@ -43,7 +43,7 @@ test_single_service_file_map(string file_location, list<tuple<IpEndpoint *, stri
   }
 
   for (const auto ip : out) {
-    if (hostMap.findHostForIP(ip).empty()) {
+    if (!hostMap.findHostForIP(ip).empty()) {
       cout << "Found an IP address that wasn't expected in the file." << endl;
       fail = 1;
     }
