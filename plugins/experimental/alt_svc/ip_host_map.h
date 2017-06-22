@@ -22,18 +22,21 @@
 */
 
 #include "prefix_parser.h"
+#include <string>
 
 // Virtual interfacing class.
 class IpHostMap {
 public:
-    virtual char * findHostForIP(IpEndpoint * ip, char * hostname) const noexcept = 0;
+    virtual std::string findHostForIP(IpEndpoint * ip, std::string hostname) const noexcept = 0;
 };
 
 class SingleServiceFileMap : public IpHostMap {
 public:
-    char * findHostForIP(IpEndpoint * ip, char * hostname) const noexcept override;
-    char * findHostForIP(IpEndpoint * ip) const noexcept;
+    std::string findHostForIP(IpEndpoint * ip, std::string hostname) const noexcept override;
+    std::string findHostForIP(IpEndpoint * ip) const noexcept;
 
     SingleServiceFileMap(std::string filename);
     ~SingleServiceFileMap() {};
+private:
+    std::string file_contents;
 };

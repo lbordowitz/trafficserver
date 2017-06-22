@@ -22,18 +22,20 @@
 */
 
 #include "ip_host_map.h"
-#include <string>
+#include <fstream>
 
-char * SingleServiceFileMap::findHostForIP(IpEndpoint * ip, char * hostname) const noexcept {
+std::string SingleServiceFileMap::findHostForIP(IpEndpoint * ip, std::string hostname) const noexcept {
     return this->findHostForIP(ip);
 }
 
-char * SingleServiceFileMap::findHostForIP(IpEndpoint * ip) const noexcept {
-    return nullptr;
+std::string SingleServiceFileMap::findHostForIP(IpEndpoint * ip) const noexcept {
+    return this->file_contents;
 }
 
 SingleServiceFileMap::SingleServiceFileMap(std::string filename) {
     // Read file
+    std::ifstream config_file {filename};
     // Parse file into plugin-local IpMap
+    config_file >> this->file_contents;
     // Fail with a "nice message"
 }
