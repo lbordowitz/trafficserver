@@ -21,8 +21,6 @@
   limitations under the License.
 */
 
-
-
 #include <iostream>
 #include <atscppapi/GlobalPlugin.h>
 #include <atscppapi/PluginInit.h>
@@ -32,8 +30,8 @@ using namespace atscppapi;
 using namespace std;
 
 // plugin registration info
-static char plugin_name[] = "alt_svc";
-static char vendor_name[] = "Yahoo! Inc.";
+static char plugin_name[]   = "alt_svc";
+static char vendor_name[]   = "Yahoo! Inc.";
 static char support_email[] = "ats-devel@yahoo-inc.com";
 
 namespace
@@ -44,7 +42,8 @@ GlobalPlugin *plugin;
 class AltSvcHeaderPlugin : public GlobalPlugin
 {
 public:
-  AltSvcHeaderPlugin(IpHostMap * hostmap) {
+  AltSvcHeaderPlugin(IpHostMap *hostmap)
+  {
     // Only if the map is initialized properly do we then add the hook.
     registerHook(HOOK_SEND_RESPONSE_HEADERS);
   }
@@ -64,4 +63,3 @@ TSPluginInit(int argc, const char *argv[])
   // assert argc == 2, argv[1] is our filename. TODO how to write asserts?
   plugin = new AltSvcHeaderPlugin(new SingleServiceFileMap(nullptr));
 }
-

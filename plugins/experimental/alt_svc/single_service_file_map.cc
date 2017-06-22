@@ -28,7 +28,7 @@ char * SingleServiceFileMap::findHostForIP(sockaddr * ip, char * hostname) const
     return nullptr;
 }
 
-SingleServiceFileMap::SingleServiceFileMap(char * filename) {
+SingleServiceFileMap::SingleServiceFileMap(std::string filename) {
     // Read file
     // Parse file into plugin-local IpMap
     // Fail with a "nice message"
