@@ -34,5 +34,5 @@ class SingleServiceFileMap : public IpHostMap {
 public:
     char * findHostForIP(sockaddr * ip, char * hostname) const noexcept override;
 
-    SingleServiceFileMap(char * filename);
+    SingleServiceFileMap(std::string filename);
 };
