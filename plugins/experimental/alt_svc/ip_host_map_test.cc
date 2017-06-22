@@ -96,7 +96,7 @@ main(int argc, char **argv, char** envp)
   // End shameless copy from IpMapTest
 
   string executable_location(*argv);
-  string test1_location = executable_location + "../../example_configs/single_service_file/test1.txt";
+  string test1_location = executable_location + "/../../example_configs/single_service_file/test1.txt";
   list< tuple<IpEndpoint *, string> > in (1, make_tuple(&a_63_128_1_12, "nebraska.example.com"));
   list<IpEndpoint *> out (1, &a_10_28_56_4);
 
