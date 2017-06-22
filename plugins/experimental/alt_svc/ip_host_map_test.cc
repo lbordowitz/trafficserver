@@ -54,8 +54,6 @@ test_single_service_file_map(string file_location, list<tuple<IpEndpoint *, stri
 int
 main(int argc, char **argv, char** envp)
 {
-  // try execution variable
-  printf("%s\n", *argv);
   // Shamelessly copied from the IpMapTest
   IpEndpoint a0, a_10_28_56_0, a_10_28_56_255, a3, a4;
   IpEndpoint a_9_255_255_255, a_10_0_0_0, a_10_0_0_19, a_10_0_0_255, a_10_0_1_0;
@@ -97,7 +95,8 @@ main(int argc, char **argv, char** envp)
   ats_ip_pton("63.128.1.12", &a_63_128_1_12);
   // End shameless copy from IpMapTest
 
-  string test1_location = "example_configs/single_service_file/test1.txt";
+  string executable_location(*argv);
+  string test1_location = executable_location + "../../example_configs/single_service_file/test1.txt";
   list< tuple<IpEndpoint *, string> > in (1, make_tuple(&a_63_128_1_12, "nebraska.example.com"));
   list<IpEndpoint *> out (1, &a_10_28_56_4);
 
