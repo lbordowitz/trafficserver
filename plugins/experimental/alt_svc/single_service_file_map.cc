@@ -36,7 +36,7 @@ SingleServiceFileMap::SingleServiceFileMap(std::string filename) {
     // Read file
     std::ifstream config_file {filename};
     if (!config_file) {
-        cout << "Cannot find config file at " << filename << endl;
+        std::cout << "Cannot find config file at " << filename << std::endl;
         // TODO how to fail in init?
     }
     // Parse file into plugin-local IpMap
