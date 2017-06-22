@@ -54,13 +54,8 @@ test_single_service_file_map(string file_location, list<tuple<IpEndpoint *, stri
 int
 main(int argc, char **argv, char** envp)
 {
-  // try environment variables
-  char** env;
-  for (env = envp; *env != 0; env++)
-  {
-    char* thisEnv = *env;
-    printf("%s\n", thisEnv);
-  }
+  // try execution variable
+  printf("%s\n", *argv);
   // Shamelessly copied from the IpMapTest
   IpEndpoint a0, a_10_28_56_0, a_10_28_56_255, a3, a4;
   IpEndpoint a_9_255_255_255, a_10_0_0_0, a_10_0_0_19, a_10_0_0_255, a_10_0_1_0;
