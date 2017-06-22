@@ -23,6 +23,7 @@
 
 #include "ip_host_map.h"
 #include <fstream>
+#include <iostream>
 
 std::string SingleServiceFileMap::findHostForIP(IpEndpoint * ip, std::string hostname) const noexcept {
     return this->findHostForIP(ip);
