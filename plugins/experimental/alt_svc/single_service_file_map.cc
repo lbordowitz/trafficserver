@@ -22,6 +22,7 @@
 */
 
 #include "ip_host_map.h"
+#include "prefix_parser.h"
 #include <fstream>
 #include <iostream>
 

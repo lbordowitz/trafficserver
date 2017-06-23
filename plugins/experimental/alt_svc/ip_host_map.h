@@ -21,6 +21,10 @@
   limitations under the License.
 */
 
+
+#ifndef __IP_HOST_MAP_H__
+#define __IP_HOST_MAP_H__ 1
+
 #include "prefix_parser.h"
 #include <string>
 
@@ -41,3 +45,5 @@ private:
     std::string file_contents;
     IpMap host_map;
 };
+
+#endif // __IP_HOST_MAP_H__
