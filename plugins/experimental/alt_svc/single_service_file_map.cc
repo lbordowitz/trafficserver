@@ -50,33 +50,38 @@ SingleServiceFileMap::SingleServiceFileMap(string filename) {
         // Parse file into plugin-local IpMap
         string hostname, ip_with_prefix, buff;
         while (!getline(config_file, buff).eof()) {
-            bool is_prefix = (buff[0] == ' ');
+            bool is_host = (buff[0] != ' ');
             buff.erase(remove_if(buff.begin(), buff.end(), ::isspace), buff.end());
-            if (is_prefix) {
-                ip_with_prefix = buff;
-                size_t slash;
-                slash = ip_with_prefix.find('/');
-                if (slash == string::npos) {
-                    cout << "can't find a slash, bro" << endl;
-                    fail = 1;
-                    // TODO how to fail in init?
-                } else if (hostname.empty()) {
-                    cout << "hostname aint there, hoss" << endl;
-                    fail = 1;
-                } else {
-                    string ip = ip_with_prefix.substr(0, slash);
-                    int prefix_num = stoi(ip_with_prefix.substr(slash + 1));
-                    sockaddr_storage lower, upper;
-                    if (parse_addresses(ip.c_str(), prefix_num, &lower, &upper) == PrefixParseError::ok) {
-                        // We should be okay adding this to the map!
-                        this->host_map.mark((sockaddr *) &lower, (sockaddr *) &upper, const_cast<char*>(hostname.c_str()));
-                    } else {
-                        // Error message should already be set here, just make fail be 1.
-                        fail = 1;
-                    }
-                }
-            } else {
+            if (is_host) {
                 hostname = buff;
+                continue;
+            }
+            ip_with_prefix = buff;
+
+            size_t slash;
+            slash = ip_with_prefix.find('/');
+            if (slash == string::npos) {
+                // TODO how to fail in init?
+                cout << "can't find a slash, bro" << endl;
+                fail = 1;
+                continue;
+            } else if (hostname.empty()) {
+                // TODO how to fail in init?
+                cout << "hostname aint there, hoss" << endl;
+                fail = 1;
+                continue;
+            }
+
+            string ip = ip_with_prefix.substr(0, slash);
+            int prefix_num = stoi(ip_with_prefix.substr(slash + 1));
+            sockaddr_storage lower, upper;
+            if (parse_addresses(ip.c_str(), prefix_num, &lower, &upper) == PrefixParseError::ok) {
+                // We should be okay adding this to the map!
+                this->host_map.mark((sockaddr *) &lower, (sockaddr *) &upper, const_cast<char*>(hostname.c_str()));
+            } else {
+                // Error message should already be set here, just make fail be 1.
+                fail = 1;
+                continue;
             }
         }
     }
@@ -84,5 +89,4 @@ SingleServiceFileMap::SingleServiceFileMap(string filename) {
     if (fail) {
         cout << "init failed bye" << endl;
     }
-    // TODO there's a lot of nesting going on, is there a better way?
 }
