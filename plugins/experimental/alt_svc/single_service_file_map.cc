@@ -49,7 +49,7 @@ SingleServiceFileMap::SingleServiceFileMap(string filename) {
         string hostname, ip_with_prefix;
         config_file >> hostname;
         while (config_file >> ip_with_prefix) {
-            uint slash;
+            size_t slash;
             slash = ip_with_prefix.find('/');
             if (slash == string::npos) {
                 cout << "can't find a slash, bro"<< endl;
@@ -61,7 +61,7 @@ SingleServiceFileMap::SingleServiceFileMap(string filename) {
                 sockaddr_storage lower, upper;
                 if (parse_addresses(ip.c_str(), prefix_num, &lower, &upper) == PrefixParseError::ok) {
                     // We should be okay adding this to the map!
-                    this->host_map.mark((sockaddr *) &lower, (sockaddr *) &upper, hostname.c_str());
+                    this->host_map.mark((sockaddr *) &lower, (sockaddr *) &upper, const_cast<char*>(hostname.c_str()));
                 } else {
                     // Error message should already be set here, just make fail be 1.
                     fail = 1;
