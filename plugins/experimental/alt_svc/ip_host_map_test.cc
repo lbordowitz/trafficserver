@@ -99,11 +99,19 @@ main(int argc, char **argv, char** envp)
   string testfile_location = executable_location.substr(0, executable_location.find_last_of("/")) + "/../example_configs/";
 
   string test1_location = testfile_location + "single_service_file/test1.txt";
-  list< tuple<IpEndpoint *, string> > in (1, make_tuple(&a_63_128_1_12, "nebraska.example.com"));
-  list<IpEndpoint *> out (1, &a_10_28_56_4);
+  list< tuple<IpEndpoint *, string> > in1 (1, make_tuple(&a_63_128_1_12, "nebraska.example.com"));
+  list<IpEndpoint *> out1 (1, &a_10_28_56_4);
 
   // First test: simple file with one prefix definition
-  int fail = test_single_service_file_map(test1_location, in, out);
+  int fail = test_single_service_file_map(test1_location, in1, out1);
+
+  string test2_location = testfile_location + "single_service_file/test2.txt";
+  list< tuple<IpEndpoint *, string> > in2 ();
+  in2.push_front(make_tuple(&a_63_128_1_12, "buffalo.example.com"));
+  in2.push_front(make_tuple(&a4, "washington.example.com"));
+  list<IpEndpoint *> out2 (1, &a_10_28_56_4);
+
+  fail |= test_single_service_file_map(test2_location, in2, out2);
 
   return fail;
 }
