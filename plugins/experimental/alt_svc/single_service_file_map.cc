@@ -25,22 +25,50 @@
 #include <fstream>
 #include <iostream>
 
-std::string SingleServiceFileMap::findHostForIP(IpEndpoint * ip, std::string hostname) const noexcept {
+using namespace std;
+
+string SingleServiceFileMap::findHostForIP(IpEndpoint * ip, string hostname) const noexcept {
     return this->findHostForIP(ip);
 }
 
-std::string SingleServiceFileMap::findHostForIP(IpEndpoint * ip) const noexcept {
-    return this->file_contents;
+string SingleServiceFileMap::findHostForIP(IpEndpoint * ip) const noexcept {
+    char * output;
+    return this->host_map.contains(ip, output) ? output : "";
 }
 
-SingleServiceFileMap::SingleServiceFileMap(std::string filename) {
+SingleServiceFileMap::SingleServiceFileMap(string filename) {
     // Read file
-    std::ifstream config_file {filename};
+    int fail = 0;
+    ifstream config_file {filename};
     if (config_file.fail()) {
-        std::cout << "Cannot find config file at " << filename << std::endl;
+        cout << "Cannot find config file at " << filename << endl;
+        fail = 1;
         // TODO how to fail in init?
+    } else {
+        // Parse file into plugin-local IpMap
+        string hostname, ip_with_prefix;
+        config_file >> hostname;
+        while (config_file >> ip_with_prefix) {
+            int slash;
+            slash = ip_with_prefix.find('/');
+            if (slash == string::npos) {
+                cout << "can't find a slash, bro"<< endl;
+                fail = 1;
+                // TODO how to fail in init?
+            } else {
+                string ip = ip_with_prefix.substr(0, slash);
+                int prefix_num = ip_with_prefix.substr(slash + 1).stoi();
+                sockaddr_storage lower, upper;
+                if (parse_addresses(ip, prefix_num, &lower, &upper) == PrefixParseError::ok) {
+                    // We should be okay adding this to the map!
+                    this->host_map.mark((sockaddr *) lower, (sockaddr *) upper, hostname.c_str());
+                } else {
+                    // Error message should already be set here, just make fail be 1.
+                    fail = 1;
+                }
+            }
+        }
     }
-    // Parse file into plugin-local IpMap
-    config_file >> this->file_contents;
-    // Fail with a "nice message"
+    // TODO Fail with a "nice message"
+    // TODO there's a lot of nesting going on, is there a better way?
 }

@@ -39,4 +39,5 @@ public:
     ~SingleServiceFileMap() {};
 private:
     std::string file_contents;
+    IpMap host_map;
 };
