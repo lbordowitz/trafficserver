@@ -50,8 +50,9 @@ SingleServiceFileMap::SingleServiceFileMap(string filename) {
         // Parse file into plugin-local IpMap
         string hostname, ip_with_prefix, buff;
         while (!getline(config_file, buff).eof()) {
+            bool is_prefix = (buff[0] == ' ');
             buff.erase(remove_if(buff.begin(), buff.end(), ::isspace), buff.end());
-            if (buff[0] == ' ') {
+            if (is_prefix) {
                 ip_with_prefix = buff;
                 size_t slash;
                 slash = ip_with_prefix.find('/');
