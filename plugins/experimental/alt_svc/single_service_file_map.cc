@@ -49,7 +49,7 @@ SingleServiceFileMap::SingleServiceFileMap(string filename) {
         // Parse file into plugin-local IpMap
         string hostname, ip_with_prefix;
         config_file >> hostname;
-        while (hostname && config_file >> ip_with_prefix) {
+        while (config_file >> ip_with_prefix) {
             size_t slash;
             slash = ip_with_prefix.find('/');
             if (slash == string::npos) {
@@ -69,8 +69,8 @@ SingleServiceFileMap::SingleServiceFileMap(string filename) {
                 }
             }
             // Check if a newline is next; that means we're about to encounter the next hostname
-            if (config_file.peek() == '\n') {
-                config_file >> hostname;
+            if (config_file.peek() == '\n' && !(config_file >> hostname)) {
+                break;
             }
         }
     }
