@@ -27,9 +27,15 @@ experimental_alt_svc_prefix_parser_la_SOURCES = \
 	experimental/alt_svc/prefix_parser.cc \
 	experimental/alt_svc/prefix_parser.h
 
+experimental_alt_svc_prefix_parser_la_CPPFLAGS = \
+	$(AM_CPPFLAGS)
+
 experimental_alt_svc_ip_host_map_la_SOURCES = \
 	experimental/alt_svc/single_service_file_map.cc \
 	experimental/alt_svc/ip_host_map.h
+
+experimental_alt_svc_ip_host_map_la_CPPFLAGS = \
+	$(AM_CPPFLAGS)
 
 experimental_alt_svc_alt_svc_la_LIBADD = \
 	experimental/alt_svc/prefix_parser.la \
