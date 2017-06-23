@@ -70,5 +70,8 @@ SingleServiceFileMap::SingleServiceFileMap(string filename) {
         }
     }
     // TODO Fail with a "nice message"
+    if (fail) {
+        cout << "init failed bye" << endl;
+    }
     // TODO there's a lot of nesting going on, is there a better way?
 }
