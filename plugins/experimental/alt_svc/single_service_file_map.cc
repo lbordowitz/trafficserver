@@ -50,8 +50,9 @@ SingleServiceFileMap::SingleServiceFileMap(string filename) {
         // Parse file into plugin-local IpMap
         string hostname, ip_with_prefix, buff;
         while (!getline(config_file, buff).eof()) {
+            buff.erase(remove_if(buff.begin(), buff.end(), ::isspace), buff.end());
             if (buff[0] == ' ') {
-                ip_with_prefix = buff.erase(remove_if(buff.begin(), buff.end(), ::isspace), buff.end());
+                ip_with_prefix = buff;
                 size_t slash;
                 slash = ip_with_prefix.find('/');
                 if (slash == string::npos) {
@@ -74,7 +75,7 @@ SingleServiceFileMap::SingleServiceFileMap(string filename) {
                     }
                 }
             } else {
-                hostname = buff.erase(remove_if(buff.begin(), buff.end(), ::isspace), buff.end());
+                hostname = buff;
             }
         }
     }
