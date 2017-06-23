@@ -107,8 +107,8 @@ main(int argc, char **argv, char** envp)
 
   string test2_location = testfile_location + "single_service_file/test2.txt";
   list< tuple<IpEndpoint *, string> > in2;
-  in2.push_front(make_tuple(&a_63_128_1_12, "buffalo.example.com"));
-  in2.push_front(make_tuple(&a4, "washington.example.com"));
+  in2.push_back(make_tuple(&a_63_128_1_12, "buffalo.example.com"));
+  in2.push_back(make_tuple(&a4, "washington.example.com"));
   list<IpEndpoint *> out2 (1, &a_10_28_56_4);
 
   fail |= test_single_service_file_map(test2_location, in2, out2);

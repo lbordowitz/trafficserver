@@ -1,1 +1,2 @@
-nebraska.example.com 63.128.1.0/24
+nebraska.example.com
+ 63.128.1.0/24

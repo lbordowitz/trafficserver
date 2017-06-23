@@ -25,6 +25,7 @@
 #include "prefix_parser.h"
 #include <fstream>
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
@@ -47,30 +48,33 @@ SingleServiceFileMap::SingleServiceFileMap(string filename) {
         // TODO how to fail in init?
     } else {
         // Parse file into plugin-local IpMap
-        string hostname, ip_with_prefix;
-        config_file >> hostname;
-        while (config_file >> ip_with_prefix) {
-            size_t slash;
-            slash = ip_with_prefix.find('/');
-            if (slash == string::npos) {
-                cout << "can't find a slash, bro"<< endl;
-                fail = 1;
-                // TODO how to fail in init?
-            } else {
-                string ip = ip_with_prefix.substr(0, slash);
-                int prefix_num = stoi(ip_with_prefix.substr(slash + 1));
-                sockaddr_storage lower, upper;
-                if (parse_addresses(ip.c_str(), prefix_num, &lower, &upper) == PrefixParseError::ok) {
-                    // We should be okay adding this to the map!
-                    this->host_map.mark((sockaddr *) &lower, (sockaddr *) &upper, const_cast<char*>(hostname.c_str()));
-                } else {
-                    // Error message should already be set here, just make fail be 1.
+        string hostname, ip_with_prefix, buff;
+        while (!getline(config_file, buff).eof()) {
+            if (buff[0] == ' ') {
+                ip_with_prefix = buff.erase(remove_if(buff.begin(), buff.end(), isspace), buff.end());
+                size_t slash;
+                slash = ip_with_prefix.find('/');
+                if (slash == string::npos) {
+                    cout << "can't find a slash, bro" << endl;
                     fail = 1;
+                    // TODO how to fail in init?
+                } else if (hostname.empty()) {
+                    cout << "hostname aint there, hoss" << endl;
+                    fail = 1;
+                } else {
+                    string ip = ip_with_prefix.substr(0, slash);
+                    int prefix_num = stoi(ip_with_prefix.substr(slash + 1));
+                    sockaddr_storage lower, upper;
+                    if (parse_addresses(ip.c_str(), prefix_num, &lower, &upper) == PrefixParseError::ok) {
+                        // We should be okay adding this to the map!
+                        this->host_map.mark((sockaddr *) &lower, (sockaddr *) &upper, const_cast<char*>(hostname.c_str()));
+                    } else {
+                        // Error message should already be set here, just make fail be 1.
+                        fail = 1;
+                    }
                 }
-            }
-            // Check if a newline is next; that means we're about to encounter the next hostname
-            if (config_file.peek() == '\n') {
-                config_file >> hostname;
+            } else {
+                hostname = buff.erase(remove_if(buff.begin(), buff.end(), isspace), buff.end());
             }
         }
     }
