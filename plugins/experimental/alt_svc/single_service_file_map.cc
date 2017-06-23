@@ -70,7 +70,7 @@ SingleServiceFileMap::SingleServiceFileMap(string filename) {
             }
             // Check if a newline is next; that means we're about to encounter the next hostname
             if (config_file.peek() == '\n') {
-                config_file >> hostname
+                config_file >> hostname;
             }
         }
     }
