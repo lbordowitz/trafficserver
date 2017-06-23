@@ -33,7 +33,7 @@ string SingleServiceFileMap::findHostForIP(IpEndpoint * ip, string hostname) con
 
 string SingleServiceFileMap::findHostForIP(IpEndpoint * ip) const noexcept {
     char * output;
-    return this->host_map.contains(ip, output) ? output : "";
+    return this->host_map.contains(ip, (void**) &output) ? output : "";
 }
 
 SingleServiceFileMap::SingleServiceFileMap(string filename) {
@@ -49,7 +49,7 @@ SingleServiceFileMap::SingleServiceFileMap(string filename) {
         string hostname, ip_with_prefix;
         config_file >> hostname;
         while (config_file >> ip_with_prefix) {
-            int slash;
+            uint slash;
             slash = ip_with_prefix.find('/');
             if (slash == string::npos) {
                 cout << "can't find a slash, bro"<< endl;
@@ -57,11 +57,11 @@ SingleServiceFileMap::SingleServiceFileMap(string filename) {
                 // TODO how to fail in init?
             } else {
                 string ip = ip_with_prefix.substr(0, slash);
-                int prefix_num = ip_with_prefix.substr(slash + 1).stoi();
+                int prefix_num = stoi(ip_with_prefix.substr(slash + 1));
                 sockaddr_storage lower, upper;
-                if (parse_addresses(ip, prefix_num, &lower, &upper) == PrefixParseError::ok) {
+                if (parse_addresses(ip.c_str(), prefix_num, &lower, &upper) == PrefixParseError::ok) {
                     // We should be okay adding this to the map!
-                    this->host_map.mark((sockaddr *) lower, (sockaddr *) upper, hostname.c_str());
+                    this->host_map.mark((sockaddr *) &lower, (sockaddr *) &upper, hostname.c_str());
                 } else {
                     // Error message should already be set here, just make fail be 1.
                     fail = 1;
