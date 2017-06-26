@@ -124,20 +124,17 @@ main(int argc, char **argv, char** envp)
   in2.push_back(make_tuple(&a4, "washington.example.com"));
   list<IpEndpoint *> out2 (1, &a_10_28_56_4);
 
+  // Second test: simple file with two hosts, two prefix definitions
   fail |= test_single_service_file_map(test2_location, in2, out2);
 
   string test3_location = testfile_location + "single_service_file/test3.txt";
   list< tuple<IpEndpoint *, string> > in3;
-  //in3.push_back(make_tuple(&address4_1, "singapore.example.com"));
-  // 18.99.78.00/24
   in3.push_back(make_tuple(&address6_1, "singapore.example.com"));
   in3.push_back(make_tuple(&address6_2, "singapore.example.com"));
   in3.push_back(make_tuple(&address6_3, "taiwan.example.com"));
   list<IpEndpoint *> out3;
-  //out3.push_back(&address4_2);
-  //out3.push_back(&address4_3);
-  //out3.push_back(&address4_4);
 
+  // Third test: simple file with two hosts, two *ipv6* prefix definitions
   fail |= test_single_service_file_map(test3_location, in3, out3);
 
 /*
