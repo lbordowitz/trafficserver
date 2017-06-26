@@ -132,7 +132,7 @@ main(int argc, char **argv, char** envp)
   in3.push_back(make_tuple(&address6_1, "singapore.example.com"));
   in3.push_back(make_tuple(&address6_2, "singapore.example.com"));
   in3.push_back(make_tuple(&address6_3, "taiwan.example.com"));
-  list<IpEndpoint *> out3 ();
+  list<IpEndpoint *> out3;
   out3.push_back(&address4_2);
   out3.push_back(&address4_3);
   out3.push_back(&address4_4);
