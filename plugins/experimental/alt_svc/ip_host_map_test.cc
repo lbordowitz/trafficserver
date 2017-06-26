@@ -95,6 +95,19 @@ main(int argc, char **argv, char** envp)
   ats_ip_pton("63.128.1.12", &a_63_128_1_12);
   // End shameless copy from IpMapTest
 
+  IpEndpoint address4_1, address4_2, address4_3, address4_4;
+  IpEndpoint address6_1, address6_2, address6_3, address6_4;
+
+  ats_ip_pton("18.99.78.18", &address4_1);
+  ats_ip_pton("18.74.249.181", &address4_2);
+  ats_ip_pton("64.77.45.235", &address4_3);
+  ats_ip_pton("64.77.148.24", &address4_4);
+
+  ats_ip_pton("7ee9:6191:6f13:e7e6:444:4f5:75b9:54f9", &address6_1);
+  ats_ip_pton("7ee9:a8f7:5ee:448e:ccea:64aa:28b7:c141", &address6_2);
+  ats_ip_pton("7e3a:f3f3:3e2f:1d24:f980:75d0:653f:fcf7", &address6_3);
+  ats_ip_pton("7e3a:f3f3:8c0b:7452:e615:ef7e:cec7:5266", &address6_4);
+
   string executable_location(*argv);
   string testfile_location = executable_location.substr(0, executable_location.find_last_of("/")) + "/../example_configs/";
 
@@ -113,5 +126,32 @@ main(int argc, char **argv, char** envp)
 
   fail |= test_single_service_file_map(test2_location, in2, out2);
 
+  string test3_location = testfile_location + "single_service_file/test3.txt";
+  list< tuple<IpEndpoint *, string> > in3;
+  in3.push_back(make_tuple(&address4_1, "singapore.example.com"));
+  in3.push_back(make_tuple(&address6_1, "singapore.example.com"));
+  in3.push_back(make_tuple(&address6_2, "singapore.example.com"));
+  in3.push_back(make_tuple(&address6_3, "taiwan.example.com"));
+  list<IpEndpoint *> out3 ();
+  out3.push_back(&address4_2);
+  out3.push_back(&address4_3);
+  out3.push_back(&address4_4);
+
+  fail |= test_single_service_file_map(test3_location, in3, out3);
+
+/*
+  // The idea behind this test is to mix more/less specific prefixes between host data so that, no matter whether fill or mark is used, this test should fail.
+  string test4_location = testfile_location + "single_service_file/test4.txt";
+  list< tuple<IpEndpoint *, string> > in4;
+  in4.push_back(make_tuple(&address4_3, "ireland.example.com"));
+  in4.push_back(make_tuple(&address4_4, "france.example.com"));
+  in4.push_back(make_tuple(&address6_3, "france.example.com"));
+  in4.push_back(make_tuple(&address6_4, "ireland.example.com"));
+  list<IpEndpoint *> out3 ();
+
+  fail |= test_single_service_file_map(test4_location, in4, out4);
+*/
+
+  // test 5 try out ip6-to-ip4 address queries on a host map.
   return fail;
 }

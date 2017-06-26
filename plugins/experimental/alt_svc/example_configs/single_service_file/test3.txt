@@ -1,0 +1,5 @@
+singapore.example.com
+ 7ee9::/16
+ 18.99.78.00/24
+taiwan.example.com
+ 7e3a:f3f3::/32
