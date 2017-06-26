@@ -79,7 +79,7 @@ SingleServiceFileMap::SingleServiceFileMap(string filename) {
                 // We should be okay adding this to the map!
                 this->host_map.mark((sockaddr *) &lower, (sockaddr *) &upper, const_cast<char*>(hostname.c_str()));
             } else {
-                // Error message should already be set here, just make fail be 1.
+                // Error message should already be logged by now, just make fail be 1.
                 fail = 1;
                 continue;
             }
