@@ -292,7 +292,7 @@ REGRESSION_TEST(IpMap_CloseIntersection)(RegressionTest *t, int /* atype ATS_UNU
   void *const markB = reinterpret_cast<void *>(2);
   void *const markC = reinterpret_cast<void *>(3);
   void *const markD = reinterpret_cast<void *>(4);
-  void *mark; // for retrieval
+  // void *mark; // for retrieval
 
   IpEndpoint a_1_l, a_1_u, a_2_l, a_2_u, a_3_l, a_3_u, a_4_l, a_4_u, a_5_l, a_5_u, a_6_l, a_6_u, a_7_l, a_7_u;
   IpEndpoint b_1_l, b_1_u;
