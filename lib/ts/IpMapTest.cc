@@ -348,7 +348,7 @@ REGRESSION_TEST(IpMap_CloseIntersection)(RegressionTest *t, int /* atype ATS_UNU
   map.mark(d_1_l, d_1_u, markD);
   map.mark(d_2_l, d_2_u, markD);
 
-  tb.check(map.getCount() == 14, "Ranges not properly added to map.");
+  tb.check(map.getCount() == 13, "Ranges not properly added to map. Expected 13, found %d.", (int) map.getCount());
 }
 
 
