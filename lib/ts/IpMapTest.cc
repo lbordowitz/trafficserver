@@ -290,12 +290,8 @@ main(int argc, const char **argv)
 {
   BaseLogFile *blf = new BaseLogFile("stdout");
   diags            = new Diags("test_IpMap", nullptr, nullptr, blf);
-  res_track_memory = 1;
-
-  ink_freelists_snap_baseline();
 
   int status = RegressionTest::main(argc, argv, REGRESSION_TEST_QUICK);
-  ink_freelists_dump(stdout);
 
   return status;
 }
