@@ -280,8 +280,6 @@ REGRESSION_TEST(IpMap_Fill)(RegressionTest *t, int /* atype ATS_UNUSED */, int *
   tb.check(map.contains(&a_fe80_9d9d, &mark) && mark == markA, "IpMap Fill[v6-2]: 9d9d address has bad mark.");
   tb.check(map.contains(&a_fe80_9d9e, &mark) && mark == markB, "IpMap Fill[v6-2]: 9d9b address has bad mark.");
   tb.check(map.contains(&a_0000_0001, &mark) && mark == markC, "IpMap Fill[v6-2]: ::1 has bad mark.");
-
-  tb.check(false, "Seeing if this even does anything");
 }
 
 
