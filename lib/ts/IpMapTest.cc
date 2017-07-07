@@ -283,6 +283,76 @@ REGRESSION_TEST(IpMap_Fill)(RegressionTest *t, int /* atype ATS_UNUSED */, int *
 }
 
 
+REGRESSION_TEST(IpMap_CloseIntersection)(RegressionTest *t, int /* atype ATS_UNUSED */, int *pstatus)
+{
+  TestBox tb(t, pstatus);
+
+  IpMap map;
+  void *const markA = reinterpret_cast<void *>(1);
+  void *const markB = reinterpret_cast<void *>(2);
+  void *const markC = reinterpret_cast<void *>(3);
+  void *const markD = reinterpret_cast<void *>(4);
+  void *mark; // for retrieval
+
+  IpEndpoint a_1_l, a_1_u, a_2_l, a_2_u, a_3_l, a_3_u, a_4_l, a_4_u, a_5_l, a_5_u, a_6_l, a_6_u, a_7_l, a_7_u;
+  IpEndpoint b_1_l, b_1_u;
+  IpEndpoint c_1_l, c_1_u, c_2_l, c_2_u, c_3_l, c_3_u;
+  IpEndpoint d_1_l, d_1_u, d_2_l, d_2_u;
+
+  ats_ip_pton("123.88.172.0", &a_1_l);
+  ats_ip_pton("123.88.191.255", &a_1_u);
+  ats_ip_pton("123.89.132.0", &a_2_l);
+  ats_ip_pton("123.89.135.255", &a_2_u);
+  ats_ip_pton("123.89.160.0", &a_3_l);
+  ats_ip_pton("123.89.167.255", &a_3_u);
+  ats_ip_pton("123.90.108.0", &a_4_l);
+  ats_ip_pton("123.90.111.255", &a_4_u);
+  ats_ip_pton("123.90.152.0", &a_5_l);
+  ats_ip_pton("123.90.159.255", &a_5_u);
+  ats_ip_pton("123.91.0.0", &a_6_l);
+  ats_ip_pton("123.91.35.255", &a_6_u);
+  ats_ip_pton("123.91.40.0", &a_7_l);
+  ats_ip_pton("123.91.47.255", &a_7_u);
+
+  ats_ip_pton("123.78.100.0", &b_1_l);
+  ats_ip_pton("123.78.115.255", &b_1_u);
+
+  ats_ip_pton("123.88.204.0", &c_1_l);
+  ats_ip_pton("123.88.219.255", &c_1_u);
+  ats_ip_pton("123.90.112.0", &c_2_l);
+  ats_ip_pton("123.90.119.255", &c_2_u);
+  ats_ip_pton("123.90.132.0", &c_3_l);
+  ats_ip_pton("123.90.135.255", &c_3_u);
+
+  ats_ip_pton("123.82.196.0", &d_1_l);
+  ats_ip_pton("123.82.199.255", &d_1_u);
+  ats_ip_pton("123.82.204.0", &d_2_l);
+  ats_ip_pton("123.82.219.255", &d_2_u);
+
+  *pstatus = REGRESSION_TEST_PASSED;
+
+  map.mark(a_1_l, a_1_u, markA);
+  map.mark(a_2_l, a_2_u, markA);
+  map.mark(a_3_l, a_3_u, markA);
+  map.mark(a_4_l, a_4_u, markA);
+  map.mark(a_5_l, a_5_u, markA);
+  map.mark(a_6_l, a_6_u, markA);
+  map.mark(a_7_l, a_7_u, markA);
+
+  map.mark(b_1_l, b_1_u, markB);
+  map.mark(b_2_l, b_2_u, markB);
+
+  map.mark(c_1_l, c_1_u, markC);
+  map.mark(c_2_l, c_2_u, markC);
+  map.mark(c_3_l, c_3_u, markC);
+
+  map.mark(d_1_l, d_1_u, markD);
+  map.mark(d_2_l, d_2_u, markD);
+
+  tb.check(map.getCount() == 14, "Ranges not properly added to map.");
+}
+
+
 int
 main(int argc, const char **argv)
 {
