@@ -340,7 +340,6 @@ REGRESSION_TEST(IpMap_CloseIntersection)(RegressionTest *t, int /* atype ATS_UNU
   map.mark(a_7_l, a_7_u, markA);
 
   map.mark(b_1_l, b_1_u, markB);
-  map.mark(b_2_l, b_2_u, markB);
 
   map.mark(c_1_l, c_1_u, markC);
   map.mark(c_2_l, c_2_u, markC);
