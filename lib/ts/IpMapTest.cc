@@ -281,3 +281,19 @@ REGRESSION_TEST(IpMap_Fill)(RegressionTest *t, int /* atype ATS_UNUSED */, int *
   tb.check(map.contains(&a_fe80_9d9e, &mark) && mark == markB, "IpMap Fill[v6-2]: 9d9b address has bad mark.");
   tb.check(map.contains(&a_0000_0001, &mark) && mark == markC, "IpMap Fill[v6-2]: ::1 has bad mark.");
 }
+
+
+int
+main(int argc, const char **argv)
+{
+  BaseLogFile *blf = new BaseLogFile("stdout");
+  diags            = new Diags("test_IpMap", nullptr, nullptr, blf);
+  res_track_memory = 1;
+
+  ink_freelists_snap_baseline();
+
+  int status = RegressionTest::main(argc, argv, REGRESSION_TEST_QUICK);
+  ink_freelists_dump(stdout);
+
+  return status;
+}
