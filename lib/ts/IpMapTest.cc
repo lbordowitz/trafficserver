@@ -79,7 +79,7 @@ REGRESSION_TEST(IpMap_Basic)(RegressionTest *t, int /* atype ATS_UNUSED */, int 
   map.mark(ip20, ip50, markA);
   map.mark(ip100, ip150, markB);
   map.fill(ip10, ip200, markC);
-  tb.check(map.getCount() == 5, "Test 3 failed [expected 5, got %d].", map.getCount());
+  tb.check(map.getCount() == 5, "Test 3 failed [expected 5, got %d].", (int) map.getCount());
   tb.check(map.contains(ip15, &mark), "Test 3 - left span missing.");
   tb.check(map.contains(ip60, &mark), "Test 3 - middle span missing.");
   tb.check(mark == markC, "Test 3 - fill mark wrong.");
@@ -87,7 +87,7 @@ REGRESSION_TEST(IpMap_Basic)(RegressionTest *t, int /* atype ATS_UNUSED */, int 
   tb.check(map.contains(ip120, &mark), "Test 3 - right mark span missing.");
   tb.check(mark == markB, "Test 3 - wrong data on right mark span.");
   map.unmark(ip140, ip160);
-  tb.check(map.getCount() == 5, "Test 3 unmark failed [expected 5, got %d].", map.getCount());
+  tb.check(map.getCount() == 5, "Test 3 unmark failed [expected 5, got %d].", (int) map.getCount());
   tb.check(!map.contains(ip140), "Test 3 - unmark left edge still there.");
   tb.check(!map.contains(ip150), "Test 3 - unmark middle still there.");
   tb.check(!map.contains(ip160), "Test 3 - unmark right edge still there.");
