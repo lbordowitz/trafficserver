@@ -84,7 +84,8 @@ main(int argc, char *argv[])
 {
   // Get location of test file configurations
   string executable_location(*argv);
-  __ip_host_map_test__testfile_location = executable_location.substr(0, executable_location.find_last_of("/")) + "/../example_configs/";
+  __ip_host_map_test__testfile_location =
+    executable_location.substr(0, executable_location.find_last_of("/")) + "/../example_configs/";
 
   // The rest is Catch business as usual.
   int result = Catch::Session().run(argc, argv);
@@ -133,9 +134,7 @@ SCENARIO("Testing the ip host map with the SingleServiceFileMap", "[ip_host_map]
     {
       list<tuple<sockaddr *, string>> in(1, make_tuple((sockaddr *)&a_63_128_1_12, "nebraska.example.com"));
       list<sockaddr *> out(1, (sockaddr *)&a_10_28_56_4);
-      THEN(" one should be in and one should be out") {
-        REQUIRE(test_single_service_file_map(test_location, in, out) == 0);
-      }
+      THEN(" one should be in and one should be out") { REQUIRE(test_single_service_file_map(test_location, in, out) == 0); }
     }
   }
 
@@ -149,9 +148,7 @@ SCENARIO("Testing the ip host map with the SingleServiceFileMap", "[ip_host_map]
       in.push_back(make_tuple((sockaddr *)&a_63_128_1_12, "buffalo.example.com"));
       in.push_back(make_tuple((sockaddr *)&a4, "washington.example.com"));
       list<sockaddr *> out(1, (sockaddr *)&a_10_28_56_4);
-      THEN(" two should be in and one should be out") {
-        REQUIRE(test_single_service_file_map(test_location, in, out) == 0);
-      }
+      THEN(" two should be in and one should be out") { REQUIRE(test_single_service_file_map(test_location, in, out) == 0); }
     }
   }
 
@@ -167,10 +164,7 @@ SCENARIO("Testing the ip host map with the SingleServiceFileMap", "[ip_host_map]
       in.push_back(make_tuple((sockaddr *)&address6_5, "newyork.example.com"));
       list<sockaddr *> out;
       out.push_back((sockaddr *)&address6_6);
-      THEN(" four should be in and one should be out")
-      {
-        REQUIRE(test_single_service_file_map(test_location, in, out) == 0);
-      }
+      THEN(" four should be in and one should be out") { REQUIRE(test_single_service_file_map(test_location, in, out) == 0); }
     }
   }
 
@@ -189,10 +183,7 @@ SCENARIO("Testing the ip host map with the SingleServiceFileMap", "[ip_host_map]
       in.push_back(make_tuple((sockaddr *)&address4_3, "morocco.example.com"));
       in.push_back(make_tuple((sockaddr *)&address4_4, "morocco.example.com"));
       list<sockaddr *> out;
-      THEN(" all eight should be in the map")
-      {
-        REQUIRE(test_single_service_file_map(test_location, in, out) == 0);
-      }
+      THEN(" all eight should be in the map") { REQUIRE(test_single_service_file_map(test_location, in, out) == 0); }
     }
   }
 
@@ -229,10 +220,7 @@ SCENARIO("Testing the ip host map with the SingleServiceFileMap", "[ip_host_map]
       // in.push_back(make_tuple((sockaddr *)&address6_address4_1, "sao.example.com"));
       in.push_back(make_tuple((sockaddr *)&address6_address4_1, "rio.example.com"));
       list<sockaddr *> out;
-      THEN(" all three should be in the map")
-      {
-        REQUIRE(test_single_service_file_map(test_location, in, out) == 0);
-      }
+      THEN(" all three should be in the map") { REQUIRE(test_single_service_file_map(test_location, in, out) == 0); }
     }
   }
 
@@ -247,10 +235,7 @@ SCENARIO("Testing the ip host map with the SingleServiceFileMap", "[ip_host_map]
       in.push_back(make_tuple((sockaddr *)&address4_c, "arizona.example.com"));
       in.push_back(make_tuple((sockaddr *)&address4_d, "newmexico.example.com"));
       list<sockaddr *> out;
-      THEN(" all four should be in the map")
-      {
-        REQUIRE(test_single_service_file_map(test_location, in, out) == 0);
-      }
+      THEN(" all four should be in the map") { REQUIRE(test_single_service_file_map(test_location, in, out) == 0); }
     }
   }
 }

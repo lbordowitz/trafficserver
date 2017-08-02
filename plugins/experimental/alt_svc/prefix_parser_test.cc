@@ -90,13 +90,14 @@ TEST_CASE("Test IPv6 works correctly", "[prefix_parser][ipv6]")
 {
   REQUIRE(ip_compare("2001:db8::", 48, "2001:db8::", "2001:db8:0:ffff:ffff:ffff:ffff:ffff") == 0); // Test basic IPv6 prefix
   REQUIRE(ip_compare("1000::", 120, "1000::", "1000::ff") == 0);                                   // Test IPv6 prefix on byte
-  REQUIRE(ip_compare("1000::", 121, "1000::", "1000::7f") == 0);                                   // Test IPv6 prefix cross-byte (under)
-  REQUIRE(ip_compare("1000::", 119, "1000::", "1000::1ff") == 0);                                  // Test IPv6 prefix cross-byte (over)
-  REQUIRE(ip_compare("1000::", 111, "1000::", "1000::1:ffff") == 0);                               // Test another IPv6 prefix cross-byte (over)
-  REQUIRE(ip_compare("7ee9::", 16, "7ee9::", "7ee9:ffff:ffff:ffff:ffff:ffff:ffff:ffff") == 0);     // Test IPv6 16 bit prefix
+  REQUIRE(ip_compare("1000::", 121, "1000::", "1000::7f") == 0);     // Test IPv6 prefix cross-byte (under)
+  REQUIRE(ip_compare("1000::", 119, "1000::", "1000::1ff") == 0);    // Test IPv6 prefix cross-byte (over)
+  REQUIRE(ip_compare("1000::", 111, "1000::", "1000::1:ffff") == 0); // Test another IPv6 prefix cross-byte (over)
+  REQUIRE(ip_compare("7ee9::", 16, "7ee9::", "7ee9:ffff:ffff:ffff:ffff:ffff:ffff:ffff") == 0);           // Test IPv6 16 bit prefix
   REQUIRE(ip_compare("7e3a:f3f3::", 32, "7e3a:f3f3::", "7e3a:f3f3:ffff:ffff:ffff:ffff:ffff:ffff") == 0); // Test IPv6 32 bit prefix
-  REQUIRE(ip_compare("::1", 128, "::1", "::1") == 0);   // Test IPv6 Loopback prefix (full)
-  REQUIRE(ip_compare("1234:5678::9abc:def0", 0, "::", "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff") == 0); // Test IPv6 none pizza w/ left beef
+  REQUIRE(ip_compare("::1", 128, "::1", "::1") == 0); // Test IPv6 Loopback prefix (full)
+  REQUIRE(ip_compare("1234:5678::9abc:def0", 0, "::", "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff") ==
+          0); // Test IPv6 none pizza w/ left beef
   REQUIRE(ip_compare("ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff", 128, "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
                      "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff") == 0); // Test a buffer stress test
 }

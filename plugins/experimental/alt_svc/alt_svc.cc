@@ -56,7 +56,7 @@ public:
   {
     if (this->_hostmap->isValid()) {
       const sockaddr *client_address = transaction.getClientAddress();
-      string host = this->_hostmap->findHostForIP(client_address, "<HOST GOES HERE LATER>");
+      string host                    = this->_hostmap->findHostForIP(client_address, "<HOST GOES HERE LATER>");
       if (!host.empty()) {
         TS_DEBUG(PLUGIN_NAME, "Found hostname %s", host.c_str());
         transaction.getClientResponse().getHeaders().append("Alt-Svc", "h2=\"" + host + ":443\"");
@@ -74,7 +74,7 @@ TSPluginInit(int argc, const char *argv[])
   // assert argc == 2, argv[1] is our filename. TODO how to write asserts?
   if (argc > 1) {
     unique_ptr<IpHostMap> hostmap(new SingleServiceFileMap(argv[1]));
-    plugin             = new AltSvcHeaderPlugin(move(hostmap));
+    plugin = new AltSvcHeaderPlugin(move(hostmap));
   } else {
     TS_DEBUG(PLUGIN_NAME, "File not found at location %s", argv[1]);
   }

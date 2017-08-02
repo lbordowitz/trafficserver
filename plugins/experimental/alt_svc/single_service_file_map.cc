@@ -31,7 +31,7 @@ using namespace std;
 static char const *ssfm_empty = "";
 
 string const &
-SingleServiceFileMap::findHostForIP(const sockaddr *ip, string const & hostname) const noexcept
+SingleServiceFileMap::findHostForIP(const sockaddr *ip, string const &hostname) const noexcept
 {
   return this->findHostForIP(ip);
 }
@@ -39,7 +39,7 @@ SingleServiceFileMap::findHostForIP(const sockaddr *ip, string const & hostname)
 string const &
 SingleServiceFileMap::findHostForIP(const sockaddr *ip) const noexcept
 {
-  char *data = nullptr;
+  char *data           = nullptr;
   string const *output = new string(this->host_map.contains(ip, (void **)&data) ? data : ssfm_empty);
 
   return *output;
@@ -51,8 +51,9 @@ SingleServiceFileMap::isValid() const noexcept
   return _isValid;
 }
 
-  // Lifted from ControlMatcher.cc
-  void SingleServiceFileMap::print_the_map() const noexcept
+// Lifted from ControlMatcher.cc
+void
+SingleServiceFileMap::print_the_map() const noexcept
 {
   TS_DEBUG(PLUGIN_NAME, "\tIp Matcher with %zu ranges.\n", this->host_map.getCount());
   for (IpMap::iterator spot(this->host_map.begin()), limit(this->host_map.end()); spot != limit; ++spot) {
@@ -62,7 +63,7 @@ SingleServiceFileMap::isValid() const noexcept
   }
 }
 
-SingleServiceFileMap::SingleServiceFileMap(string const & filename)
+SingleServiceFileMap::SingleServiceFileMap(string const &filename)
 {
   // Read file
   bool fail = 0;
