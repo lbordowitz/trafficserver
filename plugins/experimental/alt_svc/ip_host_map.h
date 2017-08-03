@@ -24,6 +24,8 @@
 #ifndef __IP_HOST_MAP_H__
 #define __IP_HOST_MAP_H__ 1
 
+#include "ts/string_view.h"
+
 #include "prefix_parser.h"
 #include "default.h"
 #include <string>
@@ -43,11 +45,14 @@ public:
   void print_the_map() const noexcept;
   bool isValid() const noexcept;
 
-  SingleServiceFileMap(std::string const &filename);
+  SingleServiceFileMap(ts::string_view filename);
   ~SingleServiceFileMap(){};
 
+  // noncopyable
+  SingleServiceFileMap(const SingleServiceFileMap &) = delete;
+  SingleServiceFileMap &operator=(const SingleServiceFileMap &) = delete;
+
 private:
-  std::string file_contents;
   IpMap host_map;
   bool _isValid;
 };

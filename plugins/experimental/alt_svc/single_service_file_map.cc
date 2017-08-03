@@ -52,8 +52,8 @@ SingleServiceFileMap::print_the_map() const noexcept
   TS_DEBUG(PLUGIN_NAME, "\tIp Matcher with %zu ranges.\n", this->host_map.getCount());
   for (auto &spot : this->host_map) {
     char b1[INET6_ADDRSTRLEN], b2[INET6_ADDRSTRLEN];
-    TS_DEBUG(PLUGIN_NAME, "\tRange %s - %s ", ats_ip_ntop(spot->min(), b1, sizeof b1), ats_ip_ntop(spot->max(), b2, sizeof b2));
-    TS_DEBUG(PLUGIN_NAME, "Host: %s \n", static_cast<char *>(spot->data()));
+    TS_DEBUG(PLUGIN_NAME, "\tRange %s - %s ", ats_ip_ntop(spot.min(), b1, sizeof b1), ats_ip_ntop(spot.max(), b2, sizeof b2));
+    TS_DEBUG(PLUGIN_NAME, "Host: %s \n", static_cast<char *>(spot.data()));
   }
 }
 
