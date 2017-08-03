@@ -32,15 +32,14 @@
 class IpHostMap
 {
 public:
-  virtual std::string const &findHostForIP(const sockaddr *ip, std::string const &hostname) const noexcept = 0;
+  virtual std::string const &findHostForIP(const sockaddr *ip) const noexcept = 0;
   virtual bool isValid() const noexcept = 0;
 };
 
 class SingleServiceFileMap : public IpHostMap
 {
 public:
-  std::string const &findHostForIP(const sockaddr *ip, std::string const &hostname) const noexcept override;
-  std::string const &findHostForIP(const sockaddr *ip) const noexcept;
+  std::string const &findHostForIP(const sockaddr *ip) const noexcept override;
   void print_the_map() const noexcept;
   bool isValid() const noexcept;
 

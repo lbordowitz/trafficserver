@@ -31,12 +31,6 @@ using namespace std;
 const string ssfm_empty = "";
 
 string const &
-SingleServiceFileMap::findHostForIP(const sockaddr *ip, string const &hostname) const noexcept
-{
-  return this->findHostForIP(ip);
-}
-
-string const &
 SingleServiceFileMap::findHostForIP(const sockaddr *ip) const noexcept
 {
   char *data           = nullptr;
@@ -63,7 +57,7 @@ SingleServiceFileMap::print_the_map() const noexcept
   }
 }
 
-SingleServiceFileMap::SingleServiceFileMap(string const &filename)
+SingleServiceFileMap::SingleServiceFileMap(ts::string_view filename)
 {
   // Read file
   bool fail = 0;
@@ -104,7 +98,7 @@ SingleServiceFileMap::SingleServiceFileMap(string const &filename)
       if (parse_addresses(ip.c_str(), prefix_num, lower, upper) == PrefixParseError::ok) {
         // We should be okay adding this to the map!
         TS_DEBUG(PLUGIN_NAME, "Mapping %s to host %s", ip_with_prefix.c_str(), hostname);
-        this->host_map.mark((sockaddr *)lower, (sockaddr *)upper, static_cast<void *>(hostname));
+        this->host_map.mark(static_cast<sockaddr *>(lower), static_cast<sockaddr *>(upper), static_cast<intptr_t>(hostname));
       } else {
         // Error message should already be logged by now, just make fail be 1.
         fail = 1;

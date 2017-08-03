@@ -56,7 +56,7 @@ public:
   {
     if (this->_hostmap->isValid()) {
       const sockaddr *client_address = transaction.getClientAddress();
-      string host                    = this->_hostmap->findHostForIP(client_address, "<HOST GOES HERE LATER>");
+      string host                    = this->_hostmap->findHostForIP(client_address);
       if (!host.empty()) {
         TS_DEBUG(PLUGIN_NAME, "Found hostname %s", host.c_str());
         transaction.getClientResponse().getHeaders().append("Alt-Svc", "h2=\"" + host + ":443\"");
