@@ -61,9 +61,9 @@ SingleServiceFileMap::SingleServiceFileMap(ts::string_view filename)
 {
   // Read file
   bool fail = 0;
-  ifstream config_file{filename.to_string()};
+  ifstream config_file{filename.data()};
   if (config_file.fail()) {
-    TS_DEBUG(PLUGIN_NAME, "Cannot find a config file at: %s", filename.to_string().c_str());
+    TS_DEBUG(PLUGIN_NAME, "Cannot find a config file at: %s", filename.data());
     fail = 1;
     // TODO how to fail in init?
   } else {
@@ -98,7 +98,8 @@ SingleServiceFileMap::SingleServiceFileMap(ts::string_view filename)
       if (parse_addresses(ip.c_str(), prefix_num, lower, upper) == PrefixParseError::ok) {
         // We should be okay adding this to the map!
         TS_DEBUG(PLUGIN_NAME, "Mapping %s to host %s", ip_with_prefix.c_str(), hostname);
-        this->host_map.mark(dynamic_cast<sockaddr *>(lower), dynamic_cast<sockaddr *>(upper), dynamic_cast<intptr_t>(hostname));
+        this->host_map.mark(reinterpret_cast<sockaddr *>(lower), reinterpret_cast<sockaddr *>(upper),
+                            reinterpret_cast<intptr_t>(hostname));
       } else {
         // Error message should already be logged by now, just make fail be 1.
         fail = 1;
