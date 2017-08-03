@@ -28,7 +28,7 @@
 
 using namespace std;
 
-static char const *ssfm_empty = "";
+const string ssfm_empty = "";
 
 string const &
 SingleServiceFileMap::findHostForIP(const sockaddr *ip, string const &hostname) const noexcept
@@ -40,9 +40,9 @@ string const &
 SingleServiceFileMap::findHostForIP(const sockaddr *ip) const noexcept
 {
   char *data           = nullptr;
-  string const *output = new string(this->host_map.contains(ip, (void **)&data) ? data : ssfm_empty);
+  string output = string(this->host_map.contains(ip, (void **)&data) ? data : ssfm_empty);
 
-  return *output;
+  return output;
 }
 
 bool
@@ -56,7 +56,7 @@ void
 SingleServiceFileMap::print_the_map() const noexcept
 {
   TS_DEBUG(PLUGIN_NAME, "\tIp Matcher with %zu ranges.\n", this->host_map.getCount());
-  for (IpMap::iterator spot(this->host_map.begin()), limit(this->host_map.end()); spot != limit; ++spot) {
+  for (auto &spot : this->host_map) {
     char b1[INET6_ADDRSTRLEN], b2[INET6_ADDRSTRLEN];
     TS_DEBUG(PLUGIN_NAME, "\tRange %s - %s ", ats_ip_ntop(spot->min(), b1, sizeof b1), ats_ip_ntop(spot->max(), b2, sizeof b2));
     TS_DEBUG(PLUGIN_NAME, "Host: %s \n", static_cast<char *>(spot->data()));
@@ -81,7 +81,7 @@ SingleServiceFileMap::SingleServiceFileMap(string const &filename)
       buff.erase(remove_if(buff.begin(), buff.end(), ::isspace), buff.end());
       if (is_host) {
         hostname = static_cast<char *>(malloc(buff.size() + 1));
-        strcpy(hostname, buff.data());
+        buff.copy(hostname, buff.length());
         continue;
       }
       ip_with_prefix = buff;
