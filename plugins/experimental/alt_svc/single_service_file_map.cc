@@ -74,7 +74,7 @@ SingleServiceFileMap::SingleServiceFileMap(ts::string_view filename)
       buff.erase(remove_if(buff.begin(), buff.end(), ::isspace), buff.end());
       if (is_host) {
         hostname = static_cast<char *>(malloc(buff.size() + 1));
-        buff.copy(hostname, buff.length());
+        buff.copy(hostname, buff.size() + 1);
         continue;
       }
       ip_with_prefix = buff;
