@@ -35,7 +35,7 @@ class IpHostMap
 {
 public:
   virtual char *findHostForIP(const sockaddr *ip) const noexcept = 0;
-  virtual bool isValid() const noexcept = 0;
+  virtual bool isValid() const noexcept                          = 0;
 };
 
 class SingleServiceFileMap : public IpHostMap

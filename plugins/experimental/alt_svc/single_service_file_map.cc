@@ -33,7 +33,7 @@ const string ssfm_empty = "";
 char *
 SingleServiceFileMap::findHostForIP(const sockaddr *ip) const noexcept
 {
-  char *data           = nullptr;
+  char *data = nullptr;
   this->host_map.contains(ip, (void **)&data);
   return data;
 }
