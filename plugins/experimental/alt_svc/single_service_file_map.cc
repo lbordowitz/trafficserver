@@ -30,13 +30,12 @@ using namespace std;
 
 const string ssfm_empty = "";
 
-string const &
+char *
 SingleServiceFileMap::findHostForIP(const sockaddr *ip) const noexcept
 {
   char *data           = nullptr;
-  string output = string(this->host_map.contains(ip, (void **)&data) ? data : ssfm_empty);
-
-  return output;
+  this->host_map.contains(ip, (void **)&data);
+  return data;
 }
 
 bool
@@ -99,7 +98,7 @@ SingleServiceFileMap::SingleServiceFileMap(ts::string_view filename)
         // We should be okay adding this to the map!
         TS_DEBUG(PLUGIN_NAME, "Mapping %s to host %s", ip_with_prefix.c_str(), hostname);
         this->host_map.mark(reinterpret_cast<sockaddr *>(lower), reinterpret_cast<sockaddr *>(upper),
-                            reinterpret_cast<intptr_t>(hostname));
+                            static_cast<void *>(hostname));
       } else {
         // Error message should already be logged by now, just make fail be 1.
         fail = 1;
