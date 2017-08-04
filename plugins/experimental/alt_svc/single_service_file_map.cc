@@ -64,7 +64,6 @@ SingleServiceFileMap::SingleServiceFileMap(ts::string_view filename)
   if (config_file.fail()) {
     TS_DEBUG(PLUGIN_NAME, "Cannot find a config file at: %s", filename.data());
     fail = 1;
-    // TODO how to fail in init?
   } else {
     // Parse file into plugin-local IpMap
     string ip_with_prefix, buff;
@@ -74,6 +73,7 @@ SingleServiceFileMap::SingleServiceFileMap(ts::string_view filename)
       buff.erase(remove_if(buff.begin(), buff.end(), ::isspace), buff.end());
       if (is_host) {
         hostname = static_cast<char *>(malloc(buff.size() + 1));
+        fill(hostname, hostname + (buff.size() + 1), 0);
         buff.copy(hostname, buff.size() + 1);
         continue;
       }
@@ -106,7 +106,6 @@ SingleServiceFileMap::SingleServiceFileMap(ts::string_view filename)
       }
     }
   }
-  // TODO Fail with a "nice message"
   if (fail) {
     TSError("Alt-Svc plugin initialization failed, this plugin is disabled");
   }
