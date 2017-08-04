@@ -69,7 +69,7 @@ test_single_service_file_map(string file_location, list<tuple<sockaddr *, string
   }
 
   for (const auto ip : out) {
-    if (!hostMap.findHostForIP(ip).empty()) {
+    if (!hostMap.findHostForIP(ip) == nullptr) {
       cout << "Found an IP address that wasn't expected in the file." << endl;
       fail = 1;
     }
