@@ -72,7 +72,7 @@ SingleServiceFileMap::SingleServiceFileMap(ts::string_view filename)
       bool is_host = (buff[0] != ' ');
       buff.erase(remove_if(buff.begin(), buff.end(), ::isspace), buff.end());
       if (is_host) {
-        hostname_iterator = this->hostnames.emplace(buff);
+        hostname_iterator = this->hostnames.emplace(buff).first;
         continue;
       }
       ip_with_prefix = buff;
@@ -96,7 +96,7 @@ SingleServiceFileMap::SingleServiceFileMap(ts::string_view filename)
         // We should be okay adding this to the map!
         TS_DEBUG(PLUGIN_NAME, "Mapping %s to host %s", ip_with_prefix.c_str(), hostname_iterator->c_str());
         this->host_map.mark(reinterpret_cast<sockaddr *>(&lower), reinterpret_cast<sockaddr *>(&upper),
-                            static_cast<void *>(hostname_iterator->c_str()));
+                            const_cast<void *>(hostname_iterator->c_str()));
       } else {
         // Error message should already be logged by now, just make fail be 1.
         fail = 1;
