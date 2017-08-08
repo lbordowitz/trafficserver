@@ -96,7 +96,7 @@ SingleServiceFileMap::SingleServiceFileMap(ts::string_view filename)
         // We should be okay adding this to the map!
         TS_DEBUG(PLUGIN_NAME, "Mapping %s to host %s", ip_with_prefix.c_str(), hostname_iterator->c_str());
         this->host_map.mark(reinterpret_cast<sockaddr *>(&lower), reinterpret_cast<sockaddr *>(&upper),
-                            const_cast<void *>(hostname_iterator->c_str()));
+                            reinterpret_cast<void *>(hostname_iterator->c_str()));
       } else {
         // Error message should already be logged by now, just make fail be 1.
         fail = 1;
