@@ -67,7 +67,7 @@ SingleServiceFileMap::SingleServiceFileMap(ts::string_view filename)
   } else {
     // Parse file into plugin-local IpMap
     string ip_with_prefix, buff;
-    auto hostname_iterator;
+    auto hostname_iterator = this->hostnames.end();
     while (!getline(config_file, buff).eof()) {
       bool is_host = (buff[0] != ' ');
       buff.erase(remove_if(buff.begin(), buff.end(), ::isspace), buff.end());
@@ -83,7 +83,7 @@ SingleServiceFileMap::SingleServiceFileMap(ts::string_view filename)
         TSError("Cannot find a slash in the provided configuration prefix: %s", ip_with_prefix.c_str());
         fail = 1;
         continue;
-      } else if (hostname_iterator == nullptr) {
+      } else if (hostname_iterator == this->hostnames.end()) {
         TSError("Did not find a hostname before the provided configuration prefix: %s", ip_with_prefix.c_str());
         fail = 1;
         continue;
