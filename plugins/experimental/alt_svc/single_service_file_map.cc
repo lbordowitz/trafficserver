@@ -89,8 +89,8 @@ SingleServiceFileMap::SingleServiceFileMap(ts::string_view filename)
         continue;
       }
 
-      string ip               = ip_with_prefix.substr(0, slash);
-      int prefix_num          = stoi(ip_with_prefix.substr(slash + 1));
+      string ip      = ip_with_prefix.substr(0, slash);
+      int prefix_num = stoi(ip_with_prefix.substr(slash + 1));
       sockaddr_storage lower, upper;
       if (parse_addresses(ip.c_str(), prefix_num, &lower, &upper) == PrefixParseError::ok) {
         // We should be okay adding this to the map!
