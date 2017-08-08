@@ -29,6 +29,7 @@
 #include "prefix_parser.h"
 #include "default.h"
 #include <string>
+#include <set>
 
 // Virtual interfacing class.
 class IpHostMap
