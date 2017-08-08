@@ -54,6 +54,7 @@ public:
 
 private:
   IpMap host_map;
+  std::set<std::string> hostnames;
   bool _isValid;
 };
 

@@ -67,14 +67,12 @@ SingleServiceFileMap::SingleServiceFileMap(ts::string_view filename)
   } else {
     // Parse file into plugin-local IpMap
     string ip_with_prefix, buff;
-    char *hostname = nullptr; // TODO can we make this a string?
+    auto hostname_iterator;
     while (!getline(config_file, buff).eof()) {
       bool is_host = (buff[0] != ' ');
       buff.erase(remove_if(buff.begin(), buff.end(), ::isspace), buff.end());
       if (is_host) {
-        hostname = static_cast<char *>(malloc(buff.size() + 1));
-        fill(hostname, hostname + (buff.size() + 1), 0);
-        buff.copy(hostname, buff.size() + 1);
+        hostname_iterator = this->hostnames.emplace(buff);
         continue;
       }
       ip_with_prefix = buff;
@@ -85,7 +83,7 @@ SingleServiceFileMap::SingleServiceFileMap(ts::string_view filename)
         TSError("Cannot find a slash in the provided configuration prefix: %s", ip_with_prefix.c_str());
         fail = 1;
         continue;
-      } else if (hostname == nullptr) {
+      } else if (hostname_iterator == nullptr) {
         TSError("Did not find a hostname before the provided configuration prefix: %s", ip_with_prefix.c_str());
         fail = 1;
         continue;
@@ -93,12 +91,12 @@ SingleServiceFileMap::SingleServiceFileMap(ts::string_view filename)
 
       string ip               = ip_with_prefix.substr(0, slash);
       int prefix_num          = stoi(ip_with_prefix.substr(slash + 1));
-      sockaddr_storage *lower = new sockaddr_storage(), *upper = new sockaddr_storage();
-      if (parse_addresses(ip.c_str(), prefix_num, lower, upper) == PrefixParseError::ok) {
+      sockaddr_storage lower, upper;
+      if (parse_addresses(ip.c_str(), prefix_num, &lower, &upper) == PrefixParseError::ok) {
         // We should be okay adding this to the map!
-        TS_DEBUG(PLUGIN_NAME, "Mapping %s to host %s", ip_with_prefix.c_str(), hostname);
-        this->host_map.mark(reinterpret_cast<sockaddr *>(lower), reinterpret_cast<sockaddr *>(upper),
-                            static_cast<void *>(hostname));
+        TS_DEBUG(PLUGIN_NAME, "Mapping %s to host %s", ip_with_prefix.c_str(), hostname_iterator->c_str());
+        this->host_map.mark(reinterpret_cast<sockaddr *>(&lower), reinterpret_cast<sockaddr *>(&upper),
+                            static_cast<void *>(hostname_iterator->c_str()));
       } else {
         // Error message should already be logged by now, just make fail be 1.
         fail = 1;
