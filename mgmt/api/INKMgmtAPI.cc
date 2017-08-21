@@ -1282,6 +1282,12 @@ TSStatsReset(const char *name)
   return StatsReset(name);
 }
 
+tsapi TSMgmtError
+TSStatsSync()
+{
+  return StatsSync();
+}
+
 /*--- variable operations ------------------------------------------------- */
 /* Call the CfgFileIO variable operations */
 

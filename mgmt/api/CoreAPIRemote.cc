@@ -1130,3 +1130,14 @@ StatsReset(const char *stat_name)
   ret = MGMTAPI_SEND_MESSAGE(main_socket_fd, op, &optype, &name);
   return (ret == TS_ERR_OKAY) ? parse_generic_response(op, main_socket_fd) : ret;
 }
+
+TSMgmtError
+StatsSync()
+{
+  TSMgmtError ret;
+  OpType op               = OpType::RECORD_SYNC;
+  OpType optype           = op;
+
+  ret = MGMTAPI_SEND_MESSAGE(main_socket_fd, op, &optype);
+  return (ret == TS_ERR_OKAY) ? parse_generic_response(op, main_socket_fd) : ret;
+}

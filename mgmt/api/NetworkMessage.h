@@ -37,6 +37,7 @@ enum class OpType : MgmtMarshallInt {
   FILE_WRITE,
   RECORD_SET,
   RECORD_GET,
+  RECORD_SYNC,
   PROXY_STATE_GET,
   PROXY_STATE_SET,
   RECONFIGURE,

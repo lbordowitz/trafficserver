@@ -50,6 +50,23 @@ metric_get(unsigned argc, const char **argv)
 }
 
 static int
+metric_sync(unsigned argc, const char **argv)
+{
+  if (!CtrlProcessArguments(argc, argv, nullptr, 0) || n_file_arguments != 0) {
+    return CtrlCommandUsage("metric sync", nullptr, 0);
+  }
+  TSMgmtError error;
+
+  error = TSStatsSync();
+  if (error != TS_ERR_OKAY) {
+    CtrlMgmtError(error, "failed to sync metrics");
+    return CTRL_EX_ERROR;
+  }
+
+  return CTRL_EX_OK;
+}
+
+static int
 metric_match(unsigned argc, const char **argv)
 {
   if (!CtrlProcessArguments(argc, argv, nullptr, 0) || n_file_arguments < 1) {
@@ -112,6 +129,7 @@ subcommand_metric(unsigned argc, const char **argv)
 {
   const subcommand commands[] = {
     {metric_get, "get", "Get one or more metric values"},
+    {metric_sync, "sync", "Synchronize statistics across all threads"},
     {metric_clear, "clear", "Clear all metric values"},
     {CtrlUnimplementedCommand, "describe", "Show detailed information about one or more metric values"},
     {metric_match, "match", "Get metrics matching a regular expression"},

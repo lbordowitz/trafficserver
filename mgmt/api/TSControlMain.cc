@@ -460,6 +460,21 @@ handle_record_match(int fd, void *req, size_t reqlen)
   return match.err;
 }
 
+static TSMgmtError
+handle_record_sync(int fd, void *req, size_t reqlen)
+{
+  TSMgmtError ret;
+  MgmtMarshallInt optype;
+
+  ret = recv_mgmt_request(req, reqlen, OpType::RECORD_SYNC, &optype);
+  if (ret != TS_ERR_OKAY) {
+    return ret;
+  }
+
+  RecExecRawStatSyncCbs();
+  return TS_ERR_OKAY;
+}
+
 /**************************************************************************
  * handle_record_set
  *
@@ -1122,6 +1137,7 @@ static const control_message_handler handlers[] = {
   /* FILE_WRITE                 */ {MGMT_API_PRIVILEGED, handle_file_write},
   /* RECORD_SET                 */ {MGMT_API_PRIVILEGED, handle_record_set},
   /* RECORD_GET                 */ {0, handle_record_get},
+  /* RECORD_SYNC                */ {0, handle_record_sync},
   /* PROXY_STATE_GET            */ {0, handle_proxy_state_get},
   /* PROXY_STATE_SET            */ {MGMT_API_PRIVILEGED, handle_proxy_state_set},
   /* RECONFIGURE                */ {MGMT_API_PRIVILEGED, handle_reconfigure},

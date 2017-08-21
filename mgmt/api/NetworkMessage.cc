@@ -42,6 +42,7 @@ static const struct NetCmdOperation requests[] = {
   /* FILE_WRITE                 */ {4, {MGMT_MARSHALL_INT, MGMT_MARSHALL_INT, MGMT_MARSHALL_INT, MGMT_MARSHALL_DATA}},
   /* RECORD_SET                 */ {3, {MGMT_MARSHALL_INT, MGMT_MARSHALL_STRING, MGMT_MARSHALL_STRING}},
   /* RECORD_GET                 */ {2, {MGMT_MARSHALL_INT, MGMT_MARSHALL_STRING}},
+  /* RECORD_SYNC                */ {1, {MGMT_MARSHALL_INT}},
   /* PROXY_STATE_GET            */ {1, {MGMT_MARSHALL_INT}},
   /* PROXY_STATE_SET            */ {3, {MGMT_MARSHALL_INT, MGMT_MARSHALL_INT, MGMT_MARSHALL_INT}},
   /* RECONFIGURE                */ {1, {MGMT_MARSHALL_INT}},
@@ -74,6 +75,7 @@ static const struct NetCmdOperation responses[] = {
   /* RECORD_SET                 */ {2, {MGMT_MARSHALL_INT, MGMT_MARSHALL_INT}},
   /* RECORD_GET                 */
   {5, {MGMT_MARSHALL_INT, MGMT_MARSHALL_INT, MGMT_MARSHALL_INT, MGMT_MARSHALL_STRING, MGMT_MARSHALL_DATA}},
+  /* RECORD_SYNC                */ {1, {MGMT_MARSHALL_INT}},
   /* PROXY_STATE_GET            */ {2, {MGMT_MARSHALL_INT, MGMT_MARSHALL_INT}},
   /* PROXY_STATE_SET            */ {1, {MGMT_MARSHALL_INT}},
   /* RECONFIGURE                */ {1, {MGMT_MARSHALL_INT}},
@@ -236,6 +238,9 @@ send_mgmt_error(int fd, OpType optype, TSMgmtError error)
   case OpType::RECORD_MATCH_GET:
     ink_release_assert(responses[static_cast<unsigned>(optype)].nfields == 5);
     return send_mgmt_response(fd, optype, &ecode, &intval, &intval, &strval, &dataval);
+  case OpType::RECORD_SYNC:
+    ink_release_assert(responses[static_cast<unsigned>(optype)].nfields == 1);
+    return send_mgmt_response(fd, optype, &ecode);
 
   case OpType::RECORD_DESCRIBE_CONFIG:
     ink_release_assert(responses[static_cast<unsigned>(optype)].nfields == 15);

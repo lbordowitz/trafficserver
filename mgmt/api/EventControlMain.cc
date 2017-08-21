@@ -523,6 +523,7 @@ static const event_message_handler handlers[] = {
   nullptr,                     // FILE_WRITE
   nullptr,                     // RECORD_SET
   nullptr,                     // RECORD_GET
+  nullptr,                     // RECORD_SYNC
   nullptr,                     // PROXY_STATE_GET
   nullptr,                     // PROXY_STATE_SET
   nullptr,                     // RECONFIGURE
