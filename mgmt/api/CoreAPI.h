@@ -92,5 +92,6 @@ TSMgmtError SnapshotRemove(const char *snapshot_name);
 TSMgmtError SnapshotGetMlt(LLQ *snapshots);
 
 TSMgmtError StatsReset(const char *name = NULL);
+TSMgmtError StatsSync();
 
 #endif
